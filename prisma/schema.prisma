@@ -9,3 +9,42 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+
+model Equipe {
+  idequipe Int @id @default(autoincrement())
+  jogadores Jogador[]
+  Tecnicos Tecnico[]
+  Cidades Cidade[]
+}
+
+model Jogador {
+  idjogador Int @id @default(autoincrement())
+  nome String
+  equipe Equipe @relation(fields: [equipe_idequipe], references: [idequipe])
+  equipe_idequipe Int
+}
+
+model Tecnico {
+  idtecnico Int @id @default(autoincrement())
+  nome String
+  funcao String
+  equipe Equipe @relation(fields: [equipe_idequipe], references: [idequipe])
+  equipe_idequipe Int
+}
+
+model Cidade {
+  idcidade Int @id @default(autoincrement())
+  nome String
+  equipe Equipe @relation(fields: [equipe_idequipe], references: [idequipe])
+  equipe_idequipe Int
+}
+
+model Jogo {
+  equipe_casa Int 
+  equipe_visitante Int
+  pontos_casa Int
+  pontos_visitante Int
+  data DateTime
+  @@id([equipe_casa, equipe_visitante])
+}
